@@ -1,0 +1,39 @@
+[
+    {
+      "name": "متحف سوهاج القومى",
+      "type": "museum",
+      "latitude": 26.5612884,
+      "longitude": 31.7062124
+    },
+    {
+      "name": "Elnil hotel",
+      "type": "Hotel",
+      "latitude": 26.560475,
+      "longitude": 31.705921
+    },
+    {
+      "name": "فندق الصفا السياحى (elsafa hotel)",
+      "type": "Hotel",
+      "latitude": 26.561355,
+      "longitude": 31.698475
+    },
+    {
+      "name": "Merritt Temple of Amun",
+      "type": "Place",
+      "latitude": 26.565136,
+      "longitude": 31.746243
+    },
+    {
+      "name": "Nile elite hotel",
+      "type": "place",
+      "latitude": 26.565526,
+      "longitude": 31.705956
+    },
+    {
+      "name": "Romanian Theatre",
+      "type": "Place",
+      "latitude": 26.559062,
+      "longitude": 31.706118
+    }
+  ]
+  
