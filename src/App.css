@@ -1,25 +1,212 @@
 .App {
   text-align: center;
 }
-
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
 }
-
+.hide-label {
+    width: 0px;
+    font-size: 1px;
+    position: absolute;
+}
 .App-header {
   background-color: #222;
-  height: 150px;
-  padding: 20px;
+  /*height: 100px;*/
+  margin-bottom: 0px;
   color: white;
+  width:100%;
+  display:flex;
+  flex-wrap: wrap;
 }
 
 .App-title {
+  color:rgb(62, 123, 194);
   font-size: 1.5em;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif; 
+  width: 80%;
 }
-
+.header__menu {
+  display: inline-block;
+  /*position: absolute;*/
+  right: 0;
+  /*padding: 1em;*/
+  width: 20%;
+}
+a#menu svg {
+  margin-top: 10px;
+  width: 35px;
+  fill: #00bcd4fa;
+}
+.nav{
+    z-index: 10;
+    background-color: #fff;
+    width: 28%;
+    height: 100%;
+    position: absolute;
+    /* This trasform moves the drawer off canvas. */
+    -webkit-transform: translate(-400px, 0);
+    transform: translate(-400px, 0);
+    /* Optionally, we animate the drawer. */
+    transition: transform 2s ease;
+    top: 60px;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;    
+}
+.nav.open{
+  -webkit-transform: translate(0, 0);
+      transform: translate(0, 0);
+}
+/*----------------------------------------------------------------------*/
 .App-intro {
   font-size: large;
+}
+
+.search {
+  z-index: 1;
+  position: fixed;
+  top: 5px;
+  left: 0px;
+}
+
+.search-field {
+  width: 150px;
+  padding: 5px;
+}
+
+.search-area {
+  width: 99%;
+  font-size: 0.92em;
+  float: left;
+}
+
+.location-list {
+  padding: 0.1;
+  margin: 5px;
+  overflow: auto;
+  float: left;
+  text-align: left;
+}
+
+.search-input {
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  font-size: .9em;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 150;
+}
+
+.place {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 120;
+  font-size: 0.8em;
+  margin: 5px;
+  color: white;
+  cursor: pointer;
+  -webkit-transition: background-color 500ms;
+  -moz-transition: background-color 500ms;
+  transition: background-color 500ms;
+  border-radius: 6px;
+  list-style-type: none;
+  float: left;
+  text-align: left;
+}
+
+.place:hover {
+  color: black;
+  background-color: white;
+}
+
+.location-item {
+  padding: 10px;
+  margin: 0;
+  background-color: #fff;
+  list-style-type: none;
+  text-align: center;
+  border: solid green 1px;
+}
+
+.location-item:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.search-area {
+  border-radius: 5px;
+  position: absolute;
+  max-height: 100%;
+  overflow: auto;
+  left: 0;
+  top: 1%;
+  z-index: 2;
+  background-color: rgb(4, 10, 3);
+  opacity: 0.9;
+}
+
+/* ul {
+  background: white;
+  border: 1px solid darkgrey;
+  overflow: auto;
+  padding: 0px;
+  margin: 0;
+  max-height: 200px;
+  overflow: auto;
+} */
+
+.box {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.box:hover {
+  background-color: #269abc;
+  color: white;
+}
+
+.button {
+  text-align: center;
+  padding: 5px;
+  background-color: white;
+  border: 1px darkgrey solid;
+  cursor: pointer;
+  width: 334px;
+}
+
+@media screen and  (max-width: 450px) {
+  .nav{
+    width: 300px;
+    -webkit-transform: translate(-320px, 0);
+    transform: translate(-320px, 0);
+    position: absolute;
+  }
+  .nav__item {
+    display: list-item;
+    border-bottom: 1px solid #E0E0E0;
+    width: 100%;
+    text-align: left;
+  }
+  .App-title {
+    font-size: 1.2em;
+  }
+  .search-filter {
+    font-size: 20px;
+  }
+}
+@media screen and  (max-width: 450px) {
+  /* .nav{
+    width: 300px;
+    -webkit-transform: translate(-300px, 0);
+    transform: translate(-300px, 0);
+  } */
+}
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 @keyframes App-logo-spin {
