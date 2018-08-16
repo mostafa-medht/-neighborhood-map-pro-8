@@ -177,7 +177,7 @@ a#menu svg {
   width: 334px;
 }
 
-@media screen and  (max-width: 450px) {
+@media screen and  (max-width: 610px) {
   .nav{
     width: 300px;
     -webkit-transform: translate(-320px, 0);
@@ -197,13 +197,7 @@ a#menu svg {
     font-size: 20px;
   }
 }
-@media screen and  (max-width: 450px) {
-  /* .nav{
-    width: 300px;
-    -webkit-transform: translate(-300px, 0);
-    transform: translate(-300px, 0);
-  } */
-}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

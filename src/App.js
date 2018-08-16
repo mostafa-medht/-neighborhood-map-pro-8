@@ -29,7 +29,7 @@ class App extends Component {
     window.initMap = this.initMap;
     // Asynchronously load the Google Maps script, passing in the callback reference
     loadMapJS(
-        "https://maps.googleapis.com/maps/api/js?key=AIzaSyD8IcpyHkbGi5SZWHekfDWcCeURioPYgDA&callback=initMap"
+        "https://maps.googleapis.com/maps/api/js?key=AIzaSyBfB8UMdS7E9dAIHPW3HzKTkkjsMHg2i0I&callback=initMap"
     );
     }
 
@@ -187,10 +187,10 @@ class App extends Component {
         <div>
           <div id="places-list" className="nav">
             <LocationList
-                  key="100"
-                  locations={this.state.locations}
-                  openInfoWindow={this.openInfoWindow}
-                  closeInfoWindow={this.closeInfoWindow}  
+                key="100"
+                locations={this.state.locations}
+                openInfoWindow={this.openInfoWindow}
+                closeInfoWindow={this.closeInfoWindow}  
             />
           </div>
         </div>  
