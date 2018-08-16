@@ -25,7 +25,6 @@ class App extends Component {
     
     componentDidMount() {
     // Connect the initMap() function within this class to the global window context,
-    // so Google Maps can invoke it
     window.initMap = this.initMap;
     // Asynchronously load the Google Maps script, passing in the callback reference
     loadMapJS(
@@ -187,17 +186,14 @@ class App extends Component {
         <div>
           <div id="places-list" className="nav">
             <LocationList
-                key="100"
-                locations={this.state.locations}
-                openInfoWindow={this.openInfoWindow}
-                closeInfoWindow={this.closeInfoWindow}  
+              key="100"
+              locations={this.state.locations}
+              openInfoWindow={this.openInfoWindow}
+              closeInfoWindow={this.closeInfoWindow}  
             />
           </div>
         </div>  
           <div id="map" />
-            
-        
-
       </div>
     );
   }
