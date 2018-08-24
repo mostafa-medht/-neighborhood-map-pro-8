@@ -21,6 +21,7 @@ class App extends Component {
     var ref = window.document.getElementById("mapsrc");
     ref.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBfB8UMdS7E9dAIHPW3HzKTkkjsMHg2i0I&callback=initMap";
     ref.async = true;
+    ref.defer = true;
     ref.onerror = function() {
       document.write("Google Maps can't be loaded");
     };
@@ -81,7 +82,7 @@ class App extends Component {
     window.google.maps.event.addDomListener(window, "resize", function() {
       var center = map.getCenter();
       window.google.maps.event.trigger(map, "resize");
-      this.state.map.setCenter(center);
+      self.state.map.setCenter(center);
     });
 
     this.setState({
@@ -149,6 +150,9 @@ class App extends Component {
       );
      })
    })
+   .catch(error => {
+    console.log('Error while getting Place Photo', error)
+  })
   }
 
 // Handle menu
@@ -188,7 +192,7 @@ class App extends Component {
             />
           </div>
         </div>  
-          <div id="map" />
+          <div id="map" role="application" />
       </div>
     );
   }
