@@ -6,7 +6,7 @@ import Header from './components/header.js';
 
 class App extends Component {
     state = {
-    locations:require('./components/places.json'),
+    locations:require('./components/places.json'), // get locations api json object
     map:"",
     largeInfowindow:"",
     isOpen: false,
@@ -15,7 +15,7 @@ class App extends Component {
 
   initMap = this.initMap;  
 
-
+// load async map 
   componentDidMount = ()=>{
     window.initMap = this.initMap;
     var ref = window.document.getElementById("mapsrc");
@@ -26,6 +26,7 @@ class App extends Component {
     };
   }
 
+  // initaialize map 
   initMap = ()=>{
     var self= this ; 
 
@@ -88,8 +89,9 @@ class App extends Component {
     });
   }
 
+// making information window function 
   populateInfoWindow = (marker) => {
-    // Check to make sure the infowindow is not already opened on this marker.
+    // Check to make sure the information window is not already opened on this marker.
     this.closeInfoWindow();    
     this.state.largeInfowindow.open(this.state.map, marker);
     marker.setAnimation(window.google.maps.Animation.BOUNCE);
@@ -105,6 +107,7 @@ class App extends Component {
     // });
   }
 
+  // show marker info function 
   showMarkerInformation = (marker) => {
     var self = this; // to prevent "error : trying to get property of nonobject"
 
@@ -148,6 +151,8 @@ class App extends Component {
    })
   }
 
+// Handle menu
+
   handleNavMenu = (event) => {
     //Get PlaceList Nav Menu Bar
     let placesNavMenu = document.querySelector("#places-list")
@@ -158,6 +163,7 @@ class App extends Component {
     })
    }
 
+  // close info window 
   closeInfoWindow = () =>  {
     if (this.state.previousMarker) {
       this.state.previousMarker.setAnimation(null);

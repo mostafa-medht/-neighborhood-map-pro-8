@@ -3,11 +3,6 @@ import Place from "./Place";
 
 
 class LocationList extends Component {
-    /**
-     * Constructor
-     */
-    // constructor(props) {
-    //   super(props);
       state = {
         locations: "",
         query: "",
@@ -15,14 +10,11 @@ class LocationList extends Component {
       };
   
       filterLocations = this.filterLocations.bind(this);
-    // }
-  
-    /**
-     * Filter Locations based on user query
-     */
-    filterLocations(event) {
+    
+    /** Filter Locations based on user query*/
+    filterLocations(e) {
       this.props.closeInfoWindow();
-      const { value } = event.target;
+      const { value } = e.target;
       var locations = [];
       this.props.locations.forEach(function(location) {
         if (location.title.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
@@ -46,9 +38,7 @@ class LocationList extends Component {
     }
 
   
-    /**
-     * Render function of LocationList
-     */
+    /** render function of Location List*/
     render() {
       var locationlist = this.state.locations.map(function(listItem, index) {
         return (
