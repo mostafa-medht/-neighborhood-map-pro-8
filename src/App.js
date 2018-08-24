@@ -1,194 +1,183 @@
 import React, { Component } from 'react';
-// import Map from './components/Map.js'
-// import logo from './logo.svg';
 import './App.css';
-import LocationList from "./components/LocationList.js";
-// import Place from "./components/Place";
+import LocationsList from "./components/LocationList.js";
 import Header from './components/header.js';
 
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        locations: require("./components/places.json"), // Get the locations from the JSON file
-        map: "",
-        infowindow: "",
-        prevmarker: ""
-    };
+    state = {
+    locations:require('./components/places.json'),
+    map:"",
+    largeInfowindow:"",
+    isOpen: false,
+    previousMarker : ""
+  };
 
-    // retain object instance when used in the function
-    this.initMap = this.initMap.bind(this);
-    this.openInfoWindow = this.openInfoWindow.bind(this);
-    this.closeInfoWindow = this.closeInfoWindow.bind(this);
-    }
-    
-    componentDidMount() {
-    // Connect the initMap() function within this class to the global window context,
+  initMap = this.initMap;  
+
+
+  componentDidMount = ()=>{
     window.initMap = this.initMap;
-    // Asynchronously load the Google Maps script, passing in the callback reference
-    loadMapJS(
-        "https://maps.googleapis.com/maps/api/js?key=AIzaSyBfB8UMdS7E9dAIHPW3HzKTkkjsMHg2i0I&callback=initMap"
-    );
-    }
-
-    initMap() {
-        var self = this;
-
-        var mapview = document.getElementById("map");
-        mapview.style.height = window.innerHeight + "px";
-        var map = new window.google.maps.Map(mapview, {
-            center: { lat: 26.561355, lng: 31.698475 },
-            zoom: 13,
-            mapTypeControl: false
-        });
-
-        var InfoWindow = new window.google.maps.InfoWindow({});
-
-        window.google.maps.event.addListener(InfoWindow, "closeclick", function() {
-            self.closeInfoWindow();
-        });
-
-        this.setState({
-            map: map,
-            infowindow: InfoWindow
-        });
-
-        window.google.maps.event.addDomListener(window, "resize", function() {
-            var center = map.getCenter();
-            window.google.maps.event.trigger(map, "resize");
-            self.state.map.setCenter(center);
-        });
-
-        window.google.maps.event.addListener(map, "click", function() {
-            self.closeInfoWindow();
-        });
-
-        var locations = [];
-        this.state.locations.forEach(function(location) {
-            var longname = location.name + " - " + location.type;
-            var marker = new window.google.maps.Marker({
-            position: new window.google.maps.LatLng(
-                location.latitude,
-                location.longitude
-            ),
-            // animation: window.google.maps.Animation.DROP,
-            map: map
-            });
-
-            marker.addListener("click", function() {
-                self.openInfoWindow(marker);
-            });
-
-            location.longname = longname;
-            location.marker = marker;
-            location.display = true;
-            locations.push(location);
-        });
-        this.setState({
-            locations: locations
-        }); 
-    }
-
-    openInfoWindow(marker) {
-        this.closeInfoWindow();
-        this.state.infowindow.open(this.state.map, marker);
-        marker.setAnimation(window.google.maps.Animation.BOUNCE);
-        this.setState({
-          prevmarker: marker
-        });
-        this.state.infowindow.setContent("Loading Data...");
-        this.state.map.setCenter(marker.getPosition());
-        this.state.map.panBy(0, -200);
-        this.getMarkerInfo(marker);
-    }
-  
-    handleNavMenuToggle = (event) => {
-      //Get PlaceList Nav Menu Bar
-      let placesNavMenu = document.querySelector("#places-list")
-      placesNavMenu.classList.toggle('open')
-      event.stopPropagation();
-      this.setState({
-        menuHidden: !this.state.menuHidden
-      })
-     }
-/**
-   * Retrive the location data from the foursquare api
-   */
-  getMarkerInfo(marker) {
-    var self = this;
-
-    // Add the api keys for foursquare
-    var clientId = "WXBMZTIDLPJMWO4OZLPWKXZPFUIKTPOGO0YIV54K5MQ4JPDL";
-    var clientSecret = "NAUCASKXAVXLG3QQQHJEH25GDAGVLBBJOG2512AYIF1KYXUH";
-
-    // Build the api endpoint
-    var url =
-      "https://api.foursquare.com/v2/venues/search?client_id="+clientId +"&client_secret="+clientSecret + "&v=20130815&ll=" +
-      marker.getPosition().lat() +
-      "," +
-      marker.getPosition().lng() +
-      "&limit=1";
-    fetch(url)
-      .then(function(response) {
-        if (response.status !== 200) {
-          self.state.infowindow.setContent("Sorry data can't be loaded");
-          return;
-        }
-
-        // Get the text in the response
-        response.json().then(function(data) {
-          console.log(data);
-
-          var location_data = data.response.venues[0];
-          var place = `<h3>${location_data.name}</h3>`;
-          var street = `<p>${location_data.location.formattedAddress[0]}</p>`;
-          var contact = "";
-          if (location_data.contact.phone)
-            contact = `<p><small>${location_data.contact.phone}</small></p>`;
-          var checkinsCount =
-            "<b>Number of CheckIn: </b>" +
-            location_data.stats.checkinsCount +
-            "<br>";
-          var readMore =
-            '<a href="https://foursquare.com/v/' +
-            location_data.id +
-            '" target="_blank">Read More on <b>Foursquare Website</b></a>';
-          self.state.infowindow.setContent(
-            place + street + contact + checkinsCount + readMore
-          );
-        });
-      })
-      .catch(function(err) {
-        self.state.infowindow.setContent("Sorry data can't be loaded");
-      });
+    var ref = window.document.getElementById("mapsrc");
+    ref.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBfB8UMdS7E9dAIHPW3HzKTkkjsMHg2i0I&callback=initMap";
+    ref.async = true;
+    ref.onerror = function() {
+      document.write("Google Maps can't be loaded");
+    };
   }
 
-  /**
-   * Close the info window previously opened
-   *
-   * @memberof App
-   */
-  closeInfoWindow() {
-    if (this.state.prevmarker) {
-      this.state.prevmarker.setAnimation(null);
+  initMap = ()=>{
+    var self= this ; 
+
+    var showMap = document.getElementById('map');
+    showMap.style.height = window.innerHeight + "px";
+    var map = new window.google.maps.Map(showMap, {    
+      center: { lat: 26.561355, lng: 31.698475 },
+      zoom: 13,
+      mapTypeControl: false
+    });
+
+    var largeInfowindow = new window.google.maps.InfoWindow({});
+    // var bounds = new window.google.maps.LatLngBounds();
+
+    window.google.maps.event.addListener(largeInfowindow, "closeclick", function() {
+      self.closeInfoWindow();
+  });
+
+    this.setState({
+      map:map,
+      largeInfowindow:largeInfowindow
+    });
+
+    var locations = [];
+    this.state.locations.forEach(function(location){
+      var title = location.name+"-"+location.type ;
+      var marker = new window.google.maps.Marker({
+        position: new window.google.maps.LatLng(
+          location.latitude,
+          location.longitude
+        ),
+        map:map,
+        title:title,
+        // animation: window.google.maps.Animation.DROP
+      });
+
+      location.title = title;
+      location.marker = marker;
+      location.display = true;
+      locations.push(location);
+      
+      marker.addListener('click', function() {
+        self.populateInfoWindow(marker);
+      }); 
+      
+    });
+
+    window.google.maps.event.addListener(map, "click", function() {
+      self.closeInfoWindow();
+    });
+
+    window.google.maps.event.addDomListener(window, "resize", function() {
+      var center = map.getCenter();
+      window.google.maps.event.trigger(map, "resize");
+      this.state.map.setCenter(center);
+    });
+
+    this.setState({
+      locations: locations
+    });
+  }
+
+  populateInfoWindow = (marker) => {
+    // Check to make sure the infowindow is not already opened on this marker.
+    this.closeInfoWindow();    
+    this.state.largeInfowindow.open(this.state.map, marker);
+    marker.setAnimation(window.google.maps.Animation.BOUNCE);
+    this.setState({
+      previousMarker : marker
+    });
+    this.state.largeInfowindow.setContent("Loading Data...");
+    this.state.map.setCenter(marker.getPosition());
+    this.state.map.panBy(-50, -180);
+    this.showMarkerInformation(marker);
+    // this.state.largeInfowindow.addListener('closeclick',function(){
+    //   this
+    // });
+  }
+
+  showMarkerInformation = (marker) => {
+    var self = this; // to prevent "error : trying to get property of nonobject"
+
+    // this.setState({
+    //   isOpen:!this.state.isOpen
+    // });
+
+   var api = 
+   "https://api.foursquare.com/v2/venues/search?client_id=WXBMZTIDLPJMWO4OZLPWKXZPFUIKTPOGO0YIV54K5MQ4JPDL&client_secret=NAUCASKXAVXLG3QQQHJEH25GDAGVLBBJOG2512AYIF1KYXUH&v=20130815&ll="+marker.getPosition().lat() +"," +
+   marker.getPosition().lng() +
+   "&limit=1";
+
+   fetch(api)
+   .then(function(response){
+     if (response.status !== 200){
+      self.state.largeInfowindow.setContent("Sorry There is no details :(");
+      return response;
+    }
+    //  return response;
+
+     // get location details 
+     response.json()
+     .then(function(data){
+       console.log(data);
+
+       var locationDetails = data.response.venues[0];
+ 
+       var locName = `<i><h3>${locationDetails.name}</h3></i>`;
+       var locStreet = `<i><p>${locationDetails.location.formattedAddress[0]}</p></i0>`;
+       var locContact = "";
+       if (locationDetails.contact.phone)
+        locContact = `<p><small>${locationDetails.contact.phone}</small></p>`;
+      var readMore =
+      '<a href="https://foursquare.com/v/' +
+      locationDetails.id +
+      '" target="_blank">For More info<b>on Foursquare Website</b></a>';      
+        self.state.largeInfowindow.setContent(
+        locName + locStreet + locContact + readMore
+      );
+     })
+   })
+  }
+
+  handleNavMenu = (event) => {
+    //Get PlaceList Nav Menu Bar
+    let placesNavMenu = document.querySelector("#places-list")
+    placesNavMenu.classList.toggle('open')
+    event.stopPropagation();
+    this.setState({
+      menuHidden: !this.state.menuHidden
+    })
+   }
+
+  closeInfoWindow = () =>  {
+    if (this.state.previousMarker) {
+      this.state.previousMarker.setAnimation(null);
     }
     this.setState({
-      prevmarker: ""
+      previousMarker: ""
     });
-    this.state.infowindow.close();
+    this.state.largeInfowindow.close();
   }
-  
+
   render() {
     return (
       <div className="App">
-        <Header className="App-header" onMenuClick = {this.handleNavMenuToggle}/>
+        <Header className="App-header" onMenuClick = {this.handleNavMenu}/>
         <div>
           <div id="places-list" className="nav">
-            <LocationList
-              key="100"
+            <LocationsList
+              key="1"
               locations={this.state.locations}
-              openInfoWindow={this.openInfoWindow}
+              populateInfoWindow={this.populateInfoWindow}
               closeInfoWindow={this.closeInfoWindow}  
             />
           </div>
@@ -200,21 +189,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-
-
-/**
- * Load the google maps
- * @param {src} url of the google maps script
- */
-function loadMapJS(src) {
-  var ref = window.document.getElementsByTagName("script")[0];
-  var script = window.document.createElement("script");
-  script.src = src;
-  script.async = true;
-  script.onerror = function() {
-    document.write("Google Maps can't be loaded");
-  };
-  ref.parentNode.insertBefore(script, ref);
-}

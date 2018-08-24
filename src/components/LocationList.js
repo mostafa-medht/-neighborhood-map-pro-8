@@ -6,16 +6,16 @@ class LocationList extends Component {
     /**
      * Constructor
      */
-    constructor(props) {
-      super(props);
-      this.state = {
+    // constructor(props) {
+    //   super(props);
+      state = {
         locations: "",
         query: "",
         suggestions: true
       };
   
-      this.filterLocations = this.filterLocations.bind(this);
-    }
+      filterLocations = this.filterLocations.bind(this);
+    // }
   
     /**
      * Filter Locations based on user query
@@ -25,7 +25,7 @@ class LocationList extends Component {
       const { value } = event.target;
       var locations = [];
       this.props.locations.forEach(function(location) {
-        if (location.longname.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+        if (location.title.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
           location.marker.setVisible(true);
           locations.push(location);
         } else {
@@ -54,7 +54,7 @@ class LocationList extends Component {
         return (
           <Place
             key={index}
-            openInfoWindow={this.props.openInfoWindow.bind(this)}
+            populateInfoWindow={this.props.populateInfoWindow.bind(this)}
             data={listItem}
           />
         );

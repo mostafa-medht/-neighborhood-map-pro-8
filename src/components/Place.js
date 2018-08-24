@@ -10,13 +10,13 @@ class Place extends React.Component {
         role="button"
         className="place"
         tabIndex="0"
-        onKeyPress={this.props.openInfoWindow.bind(
+        onKeyPress={this.props.populateInfoWindow.bind(
           this,
           this.props.data.marker
         )}
-        onClick={this.props.openInfoWindow.bind(this, this.props.data.marker)}
+        onClick={this.props.populateInfoWindow.bind(this, this.props.data.marker)}
       >
-        {this.props.data.longname}
+        {this.props.data.title}
       </li>
     );
   }
